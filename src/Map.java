@@ -1,13 +1,12 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class Map {
     private static final int DEFAULT_LENGTH = 40;
     private static final int DEFAULT_HEIGHT = 30;
+
     private char[][] map;
     private Snake snake;
-
-    private MyPanel panel;
+    private GamePanel gamePanel;
 
     //'*' represents snake; '!' represents apple; '|' represents walls
     //x direction: |-->; y direction: 丁
@@ -20,25 +19,23 @@ public class Map {
     //updateMap: update the map to cover changes in 'snake'. Also repaints the panel.
 
 
-    public Map(Snake snake1) {
+    public Map(Snake snake1, GamePanel gamePanel) {
         snake = snake1;
-        panel = new MyPanel();
-
+        this.gamePanel = gamePanel;
         Node node = snake.getHead();
         if(node == null){
             new ErrorHandler(Error.NULL_HEAD);
         }
-        map = new char[DEFAULT_LENGTH][DEFAULT_HEIGHT];
+        map = new char[gamePanel.getWidth() / 10][gamePanel.getHeight() / 10];
         blank(map);
         do{
             map[node.getPos_x()][node.getPos_y()] = '*';
             node = node.next;
         }while(node != null);
         snake.setMap(this);
-        panel.setMap(this);
     }
-    public Map(){
-        this(new Snake());
+    public Map(GamePanel gamePanel){
+        this(new Snake(), gamePanel);
     }
     private void blank(char[][] map){
         for(int i = 0; i < map.length; i++){
@@ -74,7 +71,7 @@ public class Map {
         }while(node != null);
 
         //panel.printMap(map);
-        panel.repaint();
+        gamePanel.repaint();
     }
 
 
@@ -90,8 +87,11 @@ public class Map {
     public int getLength() {
         return map.length;
     }
-    public JPanel getPanel() {
-        return panel;
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+    public void setGamePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 }
 
