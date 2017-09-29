@@ -3,21 +3,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller implements Runnable {
-    Map map;
     JFrame frame;
+    Driver driver;
+    Thread game;
 
-    public Controller(Map map){
-        this.map = map;
-        run();
+
+    public Controller(){
     }
 
     public void run(){
         frame = new JFrame();
 
+
         JPanel buttonPane = new JPanel();
         JPanel board = new JPanel();
+        GamePanel gamePanel = new GamePanel();
+        driver = new Driver(gamePanel);
 
-        //frame contains: board contains: buttonPane, map.getPenal.
+        //frame contains: board contains: buttonPane, gamePanel.
         JButton upButton = new JButton("up");
         JButton downButton = new JButton("down");
         JButton leftButton = new JButton("left");
@@ -43,11 +46,14 @@ public class Controller implements Runnable {
         buttonPane.add(restartButton);
 
         board.add(buttonPane);
-        board.add(map.getPanel());
+        board.add(gamePanel);
         frame.add(board);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+
+        game = new Thread(driver);
+        game.start();
     }
 
     private class ChangeDirection implements ActionListener{
@@ -57,7 +63,7 @@ public class Controller implements Runnable {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            map.getSnake().setDirection(newDir);
+            driver.getSnake().setDirection(newDir);
         }
     }
     private class ChangeSpeed implements ActionListener{
@@ -65,10 +71,10 @@ public class Controller implements Runnable {
         ChangeSpeed(int up){this.up = up;};
         public void actionPerformed(ActionEvent e){
             if(up == 1){
-                map.getSnake().speedUp();
+                driver.getSnake().speedUp();
             }
             else {
-                map.getSnake().speedDown();
+                driver.getSnake().speedDown();
             }
         }
     }
@@ -76,8 +82,6 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            frame.dispose();
-            Main.driver.run();
         }
     }
 }
