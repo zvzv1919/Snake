@@ -16,17 +16,20 @@ public class Driver implements Runnable {
 
         do{
             if(map.getSnake().collide()){
-                map.getGamePanel().repaint();
+                gamePanel.repaint();
                 break;
             }
-            map.getSnake().move();//Later, update the map here
-            map.updateMap();
-            map.printMap();
+            //snake.move();//Later, update the map here
+
+
+            //map.printMap();
             try {
                 sleep(snake.getSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            move();
+            map.updateMap();
         }while (true);
     }
 
@@ -38,8 +41,14 @@ public class Driver implements Runnable {
         snake.setDirection(4);
     }
 
-    public Map getMap() {
-        return map;
+
+    //move: update the 'Snake' list according to 'nextNode'(doesn't check for collision)
+    public void move(){
+        snake.getHead().setPrev(snake.nextNode());
+        snake.getHead().getPrev().setNext(snake.getHead());
+        snake.setHead(snake.getHead().getPrev());
+        snake.setTail(snake.getTail().getPrev() == null ? snake.getHead() : snake.getTail().getPrev());
+        snake.getTail().setNext(null);
     }
     public Snake getSnake() {
         return snake;
