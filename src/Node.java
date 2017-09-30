@@ -11,14 +11,15 @@ public class Node {
         this.prev = prev;
     }
 
-    public Node getNext() {
-        return next;
-    }
+
     public int getPos_y() {
         return pos_y;
     }
     public int getPos_x() {
         return pos_x;
+    }
+    public Node getNext() {
+        return next;
     }
     public Node getPrev() {
         return prev;

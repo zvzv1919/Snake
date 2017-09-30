@@ -1,7 +1,7 @@
 public class Main {
-    static Driver driver;
+    static Controller controller;
     public static void main(String[] args) {
-        driver = new Driver();
-        driver.run();
+        controller = new Controller();
+        controller.run();
     }
 }

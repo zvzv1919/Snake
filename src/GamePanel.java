@@ -1,16 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class MyPanel extends JPanel {
+public class GamePanel extends JPanel {
 
-    private String mapString;
     private Map map;
-    public MyPanel() {
+    public GamePanel() {
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
     public Dimension getPreferredSize() {
-        int width = map.getLength() * 10;
-        int height = map.getHeight() * 10;
+        int width = 400;
+        int height = 300;
         return new Dimension(width,height);
     }
     public void setMap(Map map) {

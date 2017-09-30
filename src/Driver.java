@@ -1,17 +1,22 @@
 import static java.lang.Thread.sleep;
 
+//The main process of the game with pre-determined parameters
 public class Driver implements Runnable {
     Map map;
     Snake snake;
+    GamePanel gamePanel;
+
+    public Driver(GamePanel gamePanel){
+        this.gamePanel = gamePanel;
+    }
 
     public void run(){
 
         initialize();
-        Controller controller = new Controller(map);
 
         do{
             if(map.getSnake().collide()){
-                map.getPanel().repaint();
+                map.getGamePanel().repaint();
                 break;
             }
             map.getSnake().move();//Later, update the map here
@@ -23,12 +28,20 @@ public class Driver implements Runnable {
                 e.printStackTrace();
             }
         }while (true);
-
     }
 
+    //initializes the map
     public void initialize(){
-        map = new Map();
+        map = new Map(gamePanel);
+        gamePanel.setMap(map);
         snake = map.getSnake();
         snake.setDirection(4);
+    }
+
+    public Map getMap() {
+        return map;
+    }
+    public Snake getSnake() {
+        return snake;
     }
 }
