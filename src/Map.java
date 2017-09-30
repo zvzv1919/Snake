@@ -1,8 +1,6 @@
 import javax.swing.*;
 
 public class Map {
-    private static final int DEFAULT_LENGTH = 40;
-    private static final int DEFAULT_HEIGHT = 30;
 
     private char[][] map;
     private Snake snake;
@@ -10,13 +8,13 @@ public class Map {
 
     //'*' represents snake; '!' represents apple; '|' represents walls
     //x direction: |-->; y direction: 丁
-    //!!! Must set Snake.map and panel.map in each constructor.
-    //!!! Must initialize the snake and panel in each constructor.
-    //Map(Snake): Generates an empty map of DEFAULT SIZE that contains only the snake.
-    //Map(): Generates an empty map of DEFAULT SIZE with a default snake.
+    //!!! Must set Snake.map in each constructor.
+    //!!! Must initialize the snake in each constructor.
+    //Map(Snake, GamePanel): Generates an empty map that contains only the snake.
+    //Map(GamePanel): Generates an empty map with a default snake.
     //blank(int[][]): set every entry of the passed array to ' '.
-    //printMap: print the current Map on the screen(visulize).
-    //updateMap: update the map to cover changes in 'snake'. Also repaints the panel.
+    //printMap: print the current Map on the screen(visualize).<-- For early exps, now obsolete
+    //updateMap: update the map to cover changes in 'snake'. Also repaints the panel.(visualize)
 
 
     public Map(Snake snake1, GamePanel gamePanel) {
@@ -86,12 +84,6 @@ public class Map {
     }
     public int getLength() {
         return map.length;
-    }
-    public GamePanel getGamePanel() {
-        return gamePanel;
-    }
-    public void setGamePanel(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
     }
 }
 

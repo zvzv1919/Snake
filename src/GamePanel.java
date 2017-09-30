@@ -2,20 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
+    private static final int DEFAULT_LENGTH = 40;
+    private static final int DEFAULT_HEIGHT = 30;
 
     private Map map;
+
+    //GamePanel(): A GamePanel of DEFAULT SIZE.
     public GamePanel() {
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
+
     public Dimension getPreferredSize() {
-        int width = 400;
-        int height = 300;
+        int width = 10 * DEFAULT_LENGTH;
+        int height = 10 * DEFAULT_HEIGHT;
         return new Dimension(width,height);
     }
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -40,5 +41,7 @@ public class GamePanel extends JPanel {
         } while (j < map.getMap()[0].length);
     }
 
-
+    public void setMap(Map map) {
+        this.map = map;
+    }
 }

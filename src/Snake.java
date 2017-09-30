@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 //collide: check if the 'nextNode' overlaps with the snake
-//move: update the 'Snake' list according to 'nextNode'(doesn't check for collision
+//move: update the 'Snake' list according to 'nextNode'(doesn't check for collision)(now moved to Driver.move())
 //nextNode: returns the next Node of the 'Snake' list according to the current direction and the position of 'Snake'
 //Snake(): initialize a default 'Snake' at the default position.
-//setMap: usually called in Map to allow changes to Map in Snake methods.
+//setMap: usually called in Map to associate the snake with map, allowing functions in snake to access other elements in map.
 
 public class Snake {
     private static final int UP = 1;
@@ -16,8 +16,7 @@ public class Snake {
     private Node head;
     private Node tail;
     private Map map;
-    int speed = 300;
-
+    private int speed = 300;
 
     public Snake(){
         this.head = new Node(4,4, null, null);
@@ -36,22 +35,10 @@ public class Snake {
 
         this.tail = node;
     }
-    public void move(){
-        head.prev = nextNode();
-        head.prev.next = head;
-        head = head.prev;
-        tail = tail.prev == null? head : tail.prev;
-        tail.next = null;
-    }
-    public void setDirection(int direction){
-        this.direction = direction;
-    }
-    public int getDirection() {
-        return direction;
-    }
-    public Node getHead() {
-        return head;
-    }
+
+
+
+
     boolean collide(){
         Node next = nextNode();
         Node node = head;
@@ -112,7 +99,33 @@ public class Snake {
             }
         }
     }
+    public void move(){
+        head.prev = nextNode();
+        head.prev.next = head;
+        head = head.prev;
+        tail = tail.prev == null? head : tail.prev;
+        tail.next = null;
+    }
 
+
+    public void setDirection(int direction){
+        this.direction = direction;
+    }
+    public int getDirection() {
+        return direction;
+    }
+    public Node getHead() {
+        return head;
+    }
+    public void setHead(Node head) {
+        this.head = head;
+    }
+    public Node getTail() {
+        return tail;
+    }
+    public void setTail(Node tail) {
+        this.tail = tail;
+    }
     public void setMap(Map map) {
         this.map = map;
     }
