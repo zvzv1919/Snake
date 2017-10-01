@@ -1,10 +1,12 @@
 import javax.swing.*;
+import java.util.Random;
 
 public class Map {
 
     private char[][] map;
     private Snake snake;
     private GamePanel gamePanel;
+    private Node apple;
 
     //'*' represents snake; '!' represents apple; '|' represents walls
     //x direction: |-->; y direction: 丁
@@ -15,6 +17,7 @@ public class Map {
     //blank(int[][]): set every entry of the passed array to ' '.
     //printMap: print the current Map on the screen(visualize).<-- For early exps, now obsolete
     //updateMap: update the map to cover changes in 'snake'. Also repaints the panel.(visualize)
+    //generateApple: generates an apple(Node) at a random place in map that doesn't coincide the snake.
 
 
     public Map(Snake snake1, GamePanel gamePanel) {
@@ -67,9 +70,39 @@ public class Map {
             map[node.getPos_x()][node.getPos_y()] = '*';
             node = node.next;
         }while(node != null);
+        map[apple.pos_x][apple.pos_y] = '!';
 
         //panel.printMap(map);
         gamePanel.repaint();
+    }
+    public void generateApple(){
+        Random r = new Random();
+        int x;
+        int y;
+        do{
+            x = r.nextInt(getLength());
+            y = r.nextInt(getHeight());
+            apple = new Node(x, y, null, null);
+        }while(coincidence());
+    }
+    public boolean coincidence(){
+        Node node = snake.getHead();
+        do{
+            if(node.coincide(apple)){
+                return true;
+            }
+            node = node.next;
+        }while (node != null);
+        return false;
+    }
+    public boolean eats(){
+        Node node = snake.nextNode();
+        if(node.coincide(apple)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 

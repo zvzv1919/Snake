@@ -36,4 +36,12 @@ public class Node {
     public void setPrev(Node prev) {
         this.prev = prev;
     }
+    public boolean coincide(Node node){
+        if(this.pos_x == node.pos_x && this.pos_y == node.pos_y){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

@@ -11,8 +11,8 @@ public class Driver implements Runnable {
     }
 
     public void run(){
-
         initialize();
+        map.updateMap();
 
         do{
             if(map.getSnake().collide()){
@@ -20,7 +20,6 @@ public class Driver implements Runnable {
                 break;
             }
             //snake.move();//Later, update the map here
-
 
             //map.printMap();
             try {
@@ -39,16 +38,24 @@ public class Driver implements Runnable {
         gamePanel.setMap(map);
         snake = map.getSnake();
         snake.setDirection(4);
+        map.generateApple();
     }
-
 
     //move: update the 'Snake' list according to 'nextNode'(doesn't check for collision)
     public void move(){
-        snake.getHead().setPrev(snake.nextNode());
-        snake.getHead().getPrev().setNext(snake.getHead());
-        snake.setHead(snake.getHead().getPrev());
-        snake.setTail(snake.getTail().getPrev() == null ? snake.getHead() : snake.getTail().getPrev());
-        snake.getTail().setNext(null);
+        if(!map.eats()) {
+            snake.getHead().setPrev(snake.nextNode());
+            snake.getHead().getPrev().setNext(snake.getHead());
+            snake.setHead(snake.getHead().getPrev());
+            snake.setTail(snake.getTail().getPrev() == null ? snake.getHead() : snake.getTail().getPrev());
+            snake.getTail().setNext(null);
+        }
+        else {
+            snake.getHead().setPrev(snake.nextNode());
+            snake.getHead().getPrev().setNext(snake.getHead());
+            snake.setHead(snake.getHead().getPrev());
+            map.generateApple();
+        }
     }
     public Snake getSnake() {
         return snake;
