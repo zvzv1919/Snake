@@ -3,9 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller implements Runnable {
-    JFrame frame;
-    Driver driver;
-    Thread game;
+    private JFrame frame;
+    private Driver driver;
+    private Thread game;
 
 
     public Controller(){
@@ -29,10 +29,10 @@ public class Controller implements Runnable {
         JButton speedDownButton = new JButton("speedDown");
         JButton restartButton = new JButton("restart");
 
-        upButton.addActionListener(new ChangeDirection(1));
-        downButton.addActionListener(new ChangeDirection(2));
-        leftButton.addActionListener(new ChangeDirection(3));
-        rightButton.addActionListener(new ChangeDirection(4));
+        upButton.addActionListener(new ChangeDirection(Directions.up));
+        downButton.addActionListener(new ChangeDirection(Directions.down));
+        leftButton.addActionListener(new ChangeDirection(Directions.left));
+        rightButton.addActionListener(new ChangeDirection(Directions.right));
         speedUpButton.addActionListener(new ChangeSpeed(1));
         speedDownButton.addActionListener(new ChangeSpeed(0));
         restartButton.addActionListener(new Restart());
@@ -49,21 +49,57 @@ public class Controller implements Runnable {
         board.add(gamePanel);
         frame.add(board);
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
         frame.setVisible(true);
 
         game = new Thread(driver);
+        driver.setGame(game);
         game.start();
     }
 
     private class ChangeDirection implements ActionListener{
-        int newDir;
-        ChangeDirection(int i){
+        Directions newDir;
+        ChangeDirection(Directions i){
             this.newDir = i;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            driver.getSnake().setDirection(newDir);
+            if(!isBackward(newDir)) {
+                driver.getSnake().setDirection(newDir);
+            }
+        }
+
+        public boolean isBackward(Directions newDir){
+            Directions oldDir = driver.getSnake().getDirection();
+            switch (oldDir){
+                case up:{
+                    if(newDir == Directions.down){
+                        return true;
+                    }
+                    break;
+                }
+                case down:{
+                    if(newDir == Directions.up){
+                        return true;
+                    }
+                    break;
+                }
+                case left:{
+                    if(newDir == Directions.right){
+                        return true;
+                    }
+                    break;
+                }
+                case right:{
+                    if(newDir == Directions.left){
+                        return true;
+                    }
+                    break;
+                }
+            }
+            return false;
         }
     }
     private class ChangeSpeed implements ActionListener{
@@ -82,6 +118,9 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            game = new Thread(driver);
+            driver.setGame(game);
+            game.start();
         }
     }
 }

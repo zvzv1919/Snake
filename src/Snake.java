@@ -7,16 +7,12 @@ import java.util.ArrayList;
 //setMap: usually called in Map to allow changes to Map in Snake methods.
 
 public class Snake {
-    private static final int UP = 1;
-    private static final int DOWN = 2;
-    private static final int LEFT = 3;
-    private static final int RIGHT = 4;
-
-    private int direction;
+    private static final int Default_speed = 15;
+    private Directions direction;
     private Node head;
     private Node tail;
     private Map map;
-    int speed = 300;
+    int speed = Default_speed; //the range of valid speed is set between 1 and 30.
 
 
     public Snake(){
@@ -43,10 +39,10 @@ public class Snake {
         tail = tail.prev == null? head : tail.prev;
         tail.next = null;
     }
-    public void setDirection(int direction){
+    public void setDirection(Directions direction){
         this.direction = direction;
     }
-    public int getDirection() {
+    public Directions getDirection() {
         return direction;
     }
     public Node getHead() {
@@ -76,7 +72,7 @@ public class Snake {
             new ErrorHandler(Error.NULL_MAP2);
         }
         switch (direction){
-            case RIGHT: {
+            case right: {
                 if(head.pos_x < map.getLength() - 1) {
                     return new Node(head.pos_x + 1, head.pos_y, head, null);
                 }
@@ -84,7 +80,7 @@ public class Snake {
                     return new Node(0, head.pos_y, head, null);
                 }
             }
-            case LEFT:{
+            case left:{
                 if(head.pos_x > 0) {
                     return new Node(head.pos_x - 1, head.pos_y, head, null);
                 }
@@ -92,7 +88,7 @@ public class Snake {
                     return new Node(map.getLength() - 1, head.pos_y, head, null);
                 }
             }
-            case UP:{
+            case up:{
                 if(head.getPos_y() > 0) {
                     return new Node(head.pos_x, head.pos_y - 1, head, null);
                 }
@@ -100,7 +96,7 @@ public class Snake {
                     return new Node(head.pos_x, map.getHeight() - 1, head, null);
                 }
             }
-            case DOWN:{
+            case down:{
                 if(head.getPos_y() < map.getHeight() - 1) {
                     return new Node(head.pos_x, head.pos_y + 1, head, null);
                 } else {
@@ -120,10 +116,10 @@ public class Snake {
         this.speed = speed;
     }
     public void speedUp(){
-        setSpeed(speed + 100);
+        setSpeed(speed < 30 ? ++speed : speed);
     }
     public void speedDown(){
-        setSpeed(speed - 100);
+        setSpeed(speed > 1 ? --speed : speed);
     }
     public int getSpeed() {
         return speed;

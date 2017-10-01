@@ -5,13 +5,13 @@ public class Driver implements Runnable {
     Map map;
     Snake snake;
     GamePanel gamePanel;
+    private Thread game;    //Used to stop the current thread
 
     public Driver(GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
 
     public void run(){
-
         initialize();
 
         do{
@@ -21,27 +21,30 @@ public class Driver implements Runnable {
             }
             map.getSnake().move();//Later, update the map here
             map.updateMap();
-            map.printMap();
+            //map.printMap();
             try {
-                sleep(snake.getSpeed());
+                sleep(3000 / snake.getSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }while (true);
+        }while (Thread.currentThread() == game);
     }
+
 
     //initializes the map
     public void initialize(){
         map = new Map(gamePanel);
         gamePanel.setMap(map);
         snake = map.getSnake();
-        snake.setDirection(4);
+        snake.setDirection(Directions.right);
     }
-
     public Map getMap() {
         return map;
     }
     public Snake getSnake() {
         return snake;
+    }
+    public void setGame(Thread game) {
+        this.game = game;
     }
 }
