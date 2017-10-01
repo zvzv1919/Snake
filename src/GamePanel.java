@@ -34,6 +34,9 @@ public class GamePanel extends JPanel {
                 if(map.getMap()[i][j] == '*'){
                     g.drawOval(10 * i, 10 * j, 10, 10);
                 }
+                else if(map.getMap()[i][j] == '!') {
+                    g.drawRect(10 * i, 10 * j, 10, 10);
+                }
                 i++;
             }while(i < map.getMap().length);
 

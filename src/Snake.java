@@ -107,7 +107,6 @@ public class Snake {
         tail.next = null;
     }
 
-
     public void setDirection(int direction){
         this.direction = direction;
     }
