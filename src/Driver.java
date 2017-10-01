@@ -23,12 +23,13 @@ public class Driver implements Runnable {
             map.updateMap();
             //map.printMap();
             try {
-                sleep(snake.getSpeed());
+                sleep(3000 / snake.getSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }while (Thread.currentThread() == game);
     }
+
 
     //initializes the map
     public void initialize(){
@@ -37,7 +38,6 @@ public class Driver implements Runnable {
         snake = map.getSnake();
         snake.setDirection(Directions.right);
     }
-
     public Map getMap() {
         return map;
     }

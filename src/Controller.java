@@ -49,7 +49,9 @@ public class Controller implements Runnable {
         board.add(gamePanel);
         frame.add(board);
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
         frame.setVisible(true);
 
         game = new Thread(driver);

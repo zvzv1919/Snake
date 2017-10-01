@@ -7,11 +7,12 @@ import java.util.ArrayList;
 //setMap: usually called in Map to allow changes to Map in Snake methods.
 
 public class Snake {
+    private static final int Default_speed = 15;
     private Directions direction;
     private Node head;
     private Node tail;
     private Map map;
-    int speed = 300;
+    int speed = Default_speed; //the range of valid speed is set between 1 and 30.
 
 
     public Snake(){
@@ -115,10 +116,10 @@ public class Snake {
         this.speed = speed;
     }
     public void speedUp(){
-        setSpeed(speed + 100);
+        setSpeed(speed < 30 ? ++speed : speed);
     }
     public void speedDown(){
-        setSpeed(speed - 100);
+        setSpeed(speed > 1 ? --speed : speed);
     }
     public int getSpeed() {
         return speed;
