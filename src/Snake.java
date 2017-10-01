@@ -16,7 +16,7 @@ public class Snake {
     private Node head;
     private Node tail;
     private Map map;
-    private int speed = 300;
+    private int speed = 15;
 
     public Snake(){
         this.head = new Node(4,4, null, null);
@@ -132,10 +132,10 @@ public class Snake {
         this.speed = speed;
     }
     public void speedUp(){
-        setSpeed(speed + 100);
+        setSpeed(speed < 30 ? ++speed : speed);
     }
     public void speedDown(){
-        setSpeed(speed - 100);
+        setSpeed(speed > 1 ? --speed : speed);
     }
     public int getSpeed() {
         return speed;

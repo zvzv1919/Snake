@@ -53,6 +53,7 @@ public class Controller implements Runnable {
         frame.setVisible(true);
 
         game = new Thread(driver);
+        driver.setGame(game);
         game.start();
     }
 
@@ -82,6 +83,9 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            game = new Thread(driver);
+            driver.setGame(game);
+            game.start();
         }
     }
 }

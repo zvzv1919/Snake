@@ -5,6 +5,7 @@ public class Driver implements Runnable {
     Map map;
     Snake snake;
     GamePanel gamePanel;
+    Thread game; //used to restart the game thread
 
     public Driver(GamePanel gamePanel){
         this.gamePanel = gamePanel;
@@ -23,13 +24,13 @@ public class Driver implements Runnable {
 
             //map.printMap();
             try {
-                sleep(snake.getSpeed());
+                sleep(1500 / snake.getSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             move();
             map.updateMap();
-        }while (true);
+        }while (Thread.currentThread() == game);
     }
 
     //initializes the map
@@ -59,5 +60,9 @@ public class Driver implements Runnable {
     }
     public Snake getSnake() {
         return snake;
+    }
+
+    public void setGame(Thread game) {
+        this.game = game;
     }
 }
