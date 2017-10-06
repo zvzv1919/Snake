@@ -15,17 +15,18 @@ public class Controller implements Runnable {
     public Controller(){
     }
 
+    //call changeDirections instead of making changes to directions directly to avoid bugs.
+    //!! please move changeDirections to Snake Class later
+
     public void run(){
         frame = new JFrame();
 
 
         JPanel buttonPane = new JPanel();
         JPanel board = new JPanel();
+
         GamePanel gamePanel = new GamePanel();
         driver = new Driver(gamePanel);
-        //for testing purposes
-        JTextField typingArea = new JTextField(20);
-        typingArea.addKeyListener(new KeyCtrl());
 
         //frame contains: board contains: buttonPane, gamePanel.
         JButton upButton = new JButton("up");
@@ -56,7 +57,6 @@ public class Controller implements Runnable {
         board.addKeyListener(new KeyCtrl());
         board.add(buttonPane);
         board.add(gamePanel);
-        board.add(typingArea);
 
         frame.add(board);
 
@@ -94,9 +94,7 @@ public class Controller implements Runnable {
     private class Restart implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            game = new Thread(driver);
-            driver.setGame(game);
-            game.start();
+            restart();
         }
     }
 
@@ -129,9 +127,7 @@ public class Controller implements Runnable {
                     System.exit(1);
                 }
                 case VK_R:{
-                    game = new Thread(driver);
-                    driver.setGame(game);
-                    game.start();
+                    restart();
                     break;
                 }
             }
@@ -176,4 +172,10 @@ public class Controller implements Runnable {
             driver.getSnake().setTempDirection(newDir);
         }
     }
+    public void restart(){
+        game = new Thread(driver);
+        driver.setGame(game);
+        game.start();
+    }
+
 }
