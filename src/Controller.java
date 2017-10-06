@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import static java.awt.event.KeyEvent.*;
 
 public class Controller implements Runnable {
     JFrame frame;
@@ -19,6 +23,9 @@ public class Controller implements Runnable {
         JPanel board = new JPanel();
         GamePanel gamePanel = new GamePanel();
         driver = new Driver(gamePanel);
+        //for testing purposes
+        JTextField typingArea = new JTextField(20);
+        typingArea.addKeyListener(new KeyCtrl());
 
         //frame contains: board contains: buttonPane, gamePanel.
         JButton upButton = new JButton("up");
@@ -45,9 +52,14 @@ public class Controller implements Runnable {
         buttonPane.add(speedDownButton);
         buttonPane.add(restartButton);
 
+        board.setFocusable(true);
+        board.addKeyListener(new KeyCtrl());
         board.add(buttonPane);
         board.add(gamePanel);
+        board.add(typingArea);
+
         frame.add(board);
+
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -64,9 +76,7 @@ public class Controller implements Runnable {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(!isBackward(newDir)) {
-                driver.getSnake().setDirection(newDir);
-            }
+            changeDirection(newDir);
         }
     }
     private class ChangeSpeed implements ActionListener{
@@ -89,6 +99,49 @@ public class Controller implements Runnable {
             game.start();
         }
     }
+
+    private class KeyCtrl implements KeyListener{
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()){
+                case VK_LEFT: {
+                    changeDirection(Directions.left);
+                    break;
+                }
+                case VK_RIGHT:{
+                    changeDirection(Directions.right);
+                    break;
+                }
+                case VK_UP:{
+                    changeDirection(Directions.up);
+                    break;
+                }
+                case VK_DOWN:{
+                    changeDirection(Directions.down);
+                    break;
+                }
+                case VK_ESCAPE:{
+                    System.exit(1);
+                }
+                case VK_R:{
+                    game = new Thread(driver);
+                    driver.setGame(game);
+                    game.start();
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+        }
+    }
+
     public boolean isBackward(Directions newDir){
         switch (driver.getSnake().getDirection()){
             case right:{
@@ -117,5 +170,10 @@ public class Controller implements Runnable {
             }
         }
         return false;
+    }
+    public void changeDirection(Directions newDir){
+        if(!isBackward(newDir)){
+            driver.getSnake().setTempDirection(newDir);
+        }
     }
 }

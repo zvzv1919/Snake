@@ -39,6 +39,7 @@ public class Driver implements Runnable {
         gamePanel.setMap(map);
         snake = map.getSnake();
         snake.setDirection(Directions.right);
+        snake.setTempDirection(Directions.right);
         map.generateApple();
     }
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Snake {
 
     private Directions direction;
+    private Directions tempDirection; //Used to record changes to direction in between moves.
     private Node head;
     private Node tail;
     private Map map;
@@ -58,6 +59,7 @@ public class Snake {
         if(map == null){
             new ErrorHandler(Error.NULL_MAP2);
         }
+        setDirection(tempDirection);
         switch (direction){
             case right: {
                 if(head.pos_x < map.getLength() - 1) {
@@ -108,6 +110,12 @@ public class Snake {
     }
     public Directions getDirection() {
         return direction;
+    }
+    public Directions getTempDirection() {
+        return tempDirection;
+    }
+    public void setTempDirection(Directions tempDirection) {
+        this.tempDirection = tempDirection;
     }
     public Node getHead() {
         return head;
